@@ -6,11 +6,14 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "ticketlock.h"
 
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
 } ptable;
+
+struct ticketlock tl;
 
 static struct proc *initproc;
 
@@ -88,6 +91,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p->ticket=-1;
 
   release(&ptable.lock);
 
@@ -523,7 +527,7 @@ procdump(void)
       state = states[p->state];
     else
       state = "???";
-    cprintf("%d %s %s", p->pid, state, p->name);
+    cprintf("%d %s7 %s", p->pid, state, p->name);
     if(p->state == SLEEPING){
       getcallerpcs((uint*)p->context->ebp+2, pc);
       for(i=0; i<10 && pc[i] != 0; i++)
@@ -532,3 +536,25 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+int
+startlock(void)
+{
+	initlock_t(&tl);
+	return 1414;
+}
+
+int
+capture(void)
+{
+	acquire_t(&tl);
+	return 11;
+}
+
+int
+withdraw(void)
+{
+	release_t(&tl);
+	return 13;
+}
+

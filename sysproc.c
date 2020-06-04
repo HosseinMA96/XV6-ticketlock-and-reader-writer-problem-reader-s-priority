@@ -89,3 +89,23 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int
+sys_capture(void)
+{
+	return capture();
+}
+
+int
+sys_withdraw(void)
+{
+	return withdraw();
+}
+
+int
+sys_startlock(void)
+{
+	return startlock();
+}
+
+
