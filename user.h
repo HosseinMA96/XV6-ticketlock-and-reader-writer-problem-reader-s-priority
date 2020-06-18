@@ -27,6 +27,8 @@ int uptime(void);
 int capture(void);
 int withdraw(void);
 int startlock(void);
+int rwinit(void);
+int rwtest(int);
 
 // ulib.c
 int stat(const char*, struct stat*);

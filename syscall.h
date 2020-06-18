@@ -23,4 +23,6 @@
 #define	SYS_capture	22
 #define	SYS_withdraw	23
 #define SYS_startlock	24
+#define SYS_rwinit  25
+#define SYS_rwtest  26
 

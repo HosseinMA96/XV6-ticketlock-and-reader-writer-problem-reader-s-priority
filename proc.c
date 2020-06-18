@@ -558,3 +558,13 @@ withdraw(void)
 	return 13;
 }
 
+void
+rwinit(void)
+{
+}
+
+int
+rwtest(int rw)
+{
+	return 1;
+}

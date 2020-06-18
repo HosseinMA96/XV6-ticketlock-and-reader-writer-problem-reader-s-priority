@@ -102,10 +102,28 @@ sys_withdraw(void)
 	return withdraw();
 }
 
+
 int
 sys_startlock(void)
 {
 	return startlock();
+}
+
+
+int
+sys_rwinit(void)
+{
+  rwinit();
+  return 0;
+}
+int
+sys_rwtest(void)
+{
+    int rw;
+
+  if(argint(0, &rw) < 0)
+    return -1;
+  return rwtest(rw); 
 }
 
 

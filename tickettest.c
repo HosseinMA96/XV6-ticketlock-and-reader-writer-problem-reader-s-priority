@@ -27,7 +27,7 @@ int main()
 		for(int i=0;i<20;i++)
 			printf(1,"%d\t",i);
 		printf(1, "\n");
-		printf(1, "Numbers were printet in a consequtive manner.\n");
+		printf(1, "Numbers were printed in a consequtive manner.\n");
 		printf(1, "No other process is in its critical section.\n");
 		printf(1, "Thus, mutual exlusion is satisfied!\n");
 

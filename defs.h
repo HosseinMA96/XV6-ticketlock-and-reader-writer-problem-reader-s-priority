@@ -130,7 +130,8 @@ void            yield(void);
 int		capture(void);
 int		withdraw(void);
 int		startlock(void);
-
+void		rwinit(void);
+int		rwtest(int);
 // swtch.S
 void            swtch(struct context**, struct context*);
 
