@@ -34,3 +34,5 @@ SYSCALL(withdraw)
 SYSCALL(startlock)
 SYSCALL(rwinit)
 SYSCALL(rwtest)
+
+

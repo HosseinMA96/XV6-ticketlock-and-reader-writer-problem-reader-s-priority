@@ -30,6 +30,9 @@ int startlock(void);
 int rwinit(void);
 int rwtest(int);
 
+
+
+
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);

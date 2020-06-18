@@ -14,12 +14,18 @@ struct {
 } ptable;
 
 struct ticketlock tl;
+struct spinlock mutex;
+struct spinlock queue;
+
 
 static struct proc *initproc;
 
+
 int nextpid = 1;
+int reader=0;
 extern void forkret(void);
 extern void trapret(void);
+int value=0;
 
 static void wakeup1(void *chan);
 
@@ -27,6 +33,8 @@ void
 pinit(void)
 {
   initlock(&ptable.lock, "ptable");
+
+
 }
 
 // Must be called with interrupts disabled
@@ -561,10 +569,79 @@ withdraw(void)
 void
 rwinit(void)
 {
+	initlock(&mutex,"mutex");
+  	initlock(&queue,"queue");
 }
 
 int
 rwtest(int rw)
 {
-	return 1;
+      //  cprintf("%s%d\n","RW is ",rw);
+
+	if(rw>1)
+		return 2;
+	if (rw==1)
+	{	
+	//	cprintf("%s\n","W Qeue ACQ");
+		acquire(&queue);
+		
+	//	cprintf("%s\n","W mutex ACQ");
+		acquire(&mutex);
+		
+
+		value++;
+		cprintf("%s%d\n","I'm a writier, I incremented the value and value=",value);
+	//	cprintf("%s\n","W mutex REL");
+		release(&mutex);
+		
+	//	cprintf("%s\n","W Queue REL");	
+		release(&queue);
+		
+	}
+
+	else
+	{
+	//	cprintf("%s\n","R mutex ACQ");
+		acquire(&mutex);
+		
+
+		reader++;
+		
+		if(reader==1){
+	//		cprintf("%s\n","R QEUE ACQ");
+			acquire(&queue);
+			
+		}
+
+	//	cprintf("%s\n","R mutex REL");
+		release(&mutex);
+		
+
+		cprintf("%s%d\n","I'm a reader. value=",value);
+
+	//	cprintf("%s\n","R mutex ACQ");
+
+		acquire(&mutex);
+		
+
+		reader--;
+
+		if(reader==0){
+	//		cprintf("%s\n","R QUEUE REL");
+			release(&queue);
+		}
+
+		
+		release(&mutex);
+		
+
+		
+	}	
+
+	return 0;
+	cprintf("\n");
 }
+		
+
+	
+

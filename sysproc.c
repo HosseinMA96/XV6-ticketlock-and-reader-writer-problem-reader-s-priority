@@ -116,6 +116,8 @@ sys_rwinit(void)
   rwinit();
   return 0;
 }
+
+//reader mode, writed mode
 int
 sys_rwtest(void)
 {
@@ -125,5 +127,8 @@ sys_rwtest(void)
     return -1;
   return rwtest(rw); 
 }
+
+
+
 
 
