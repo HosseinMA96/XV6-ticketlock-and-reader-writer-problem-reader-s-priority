@@ -14,8 +14,8 @@ struct {
 } ptable;
 
 struct ticketlock tl;
-struct spinlock mutex;
-struct spinlock queue;
+struct ticketlock mutex;
+struct ticketlock queue;
 
 
 static struct proc *initproc;
@@ -569,8 +569,8 @@ withdraw(void)
 void
 rwinit(void)
 {
-	initlock(&mutex,"mutex");
-  	initlock(&queue,"queue");
+	initlock_t(&mutex);
+  	initlock_t(&queue);
 }
 
 int
@@ -583,56 +583,56 @@ rwtest(int rw)
 	if (rw==1)
 	{	
 	//	cprintf("%s\n","W Qeue ACQ");
-		acquire(&queue);
+		acquire_t(&queue);
 		
 	//	cprintf("%s\n","W mutex ACQ");
-		acquire(&mutex);
+		acquire_t(&mutex);
 		
 
 		value++;
 		cprintf("%s%d\n","I'm a writier, I incremented the value and value=",value);
 	//	cprintf("%s\n","W mutex REL");
-		release(&mutex);
+		release_t(&mutex);
 		
 	//	cprintf("%s\n","W Queue REL");	
-		release(&queue);
+		release_t(&queue);
 		
 	}
 
 	else
 	{
 	//	cprintf("%s\n","R mutex ACQ");
-		acquire(&mutex);
+		acquire_t(&mutex);
 		
 
 		reader++;
 		
 		if(reader==1){
 	//		cprintf("%s\n","R QEUE ACQ");
-			acquire(&queue);
+			acquire_t(&queue);
 			
 		}
 
 	//	cprintf("%s\n","R mutex REL");
-		release(&mutex);
+		release_t(&mutex);
 		
 
 		cprintf("%s%d\n","I'm a reader. value=",value);
 
 	//	cprintf("%s\n","R mutex ACQ");
 
-		acquire(&mutex);
+		acquire_t(&mutex);
 		
 
 		reader--;
 
 		if(reader==0){
 	//		cprintf("%s\n","R QUEUE REL");
-			release(&queue);
+			release_t(&queue);
 		}
 
 		
-		release(&mutex);
+		release_t(&mutex);
 		
 
 		
