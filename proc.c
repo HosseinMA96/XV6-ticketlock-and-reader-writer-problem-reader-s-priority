@@ -22,10 +22,11 @@ static struct proc *initproc;
 
 
 int nextpid = 1;
-int reader=0;
+int reader;
+int value;
 extern void forkret(void);
 extern void trapret(void);
-int value=0;
+
 
 static void wakeup1(void *chan);
 
@@ -571,6 +572,8 @@ rwinit(void)
 {
 	initlock_t(&mutex);
   	initlock_t(&queue);
+        reader=0;
+        value=0;
 }
 
 int
